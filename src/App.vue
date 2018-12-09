@@ -102,12 +102,12 @@ import {formatArtworkURL, formatMillis} from './utils';
 const routes = [
   {
     name: 'index',
-    path: '/',
+    path: '/music',
     component: Index
   },
   {
     name: 'search',
-    path: '/search',
+    path: '/music/search',
     component: Search,
     props: {
       title: 'Search'
@@ -118,7 +118,7 @@ const routes = [
   },
   {
     name: 'recommendations',
-    path: '/recommendations',
+    path: '/music/recommendations',
     component: Recommendations,
     props: {
       title: 'Recommendations'
@@ -130,7 +130,7 @@ const routes = [
   },
   {
     name: 'recently-played',
-    path: '/recently-played',
+    path: '/music/recently-played',
     component: RecentlyPlayed,
     props: {
       title: 'Recently Played'
@@ -142,7 +142,7 @@ const routes = [
   },
   {
     name: 'library',
-    path: '/library',
+    path: '/music/library',
     component: Me,
     meta: {
       isLibrary: true
@@ -238,7 +238,7 @@ const routes = [
   },
   {
     name: 'playlists',
-    path: '/playlists/:id',
+    path: '/music/playlists/:id',
     component: SongCollection,
     meta: {
       type: 'playlist',
@@ -247,7 +247,7 @@ const routes = [
   },
   {
     name: 'albums',
-    path: '/albums/:id',
+    path: '/music/albums/:id',
     component: SongCollection,
     meta: {
       type: 'album',
@@ -256,7 +256,7 @@ const routes = [
   },
   {
     name: 'stations',
-    path: '/stations/:id',
+    path: '/music/stations/:id',
     component: Station,
     meta: {
       type: 'station',
@@ -265,7 +265,7 @@ const routes = [
   },
   {
     name: 'artists',
-    path: '/artists/:id',
+    path: '/music/artists/:id',
     component: Artist,
     meta: {
       isLibrary: false
@@ -273,7 +273,7 @@ const routes = [
   },
   {
     name: 'settings',
-    path: '/settings',
+    path: '/music/settings',
     component: Settings,
     meta: {
       title: 'Settings',
@@ -285,7 +285,7 @@ const routes = [
   },
   {
     name: 'debug',
-    path: '/debug',
+    path: '/music/debug',
     component: Debug,
     meta: {
       title: 'Debug',
@@ -313,21 +313,21 @@ router.beforeEach((to, from, next) => {
   window.scrollTo(0, 0);
 
   if (to.name === 'library') {
-    next({ path: '/', replace: true });
+    next({ path: '/music', replace: true });
     return;
   }
 
   if (to.meta.title) {
-    document.title = to.meta.title + ' | Zachary Seguin Music';
+    document.title = to.meta.title + ' | Music';
   } else {
-    document.title = 'Zachary Seguin Music: an Apple Music web player';
+    document.title = 'Music';
   }
 
   try {
     let musicKit = window.MusicKit.getInstance();
 
     if (to.meta.isLibrary && !musicKit.isAuthorized) {
-      next({ path: '/', replace: true });
+      next({ path: '/music', replace: true });
       return;
     }
   } catch (err) {
@@ -408,7 +408,7 @@ export default {
       window.MusicKit.configure({
         developerToken: privateConfig.developerToken,
         app: {
-          name: 'Zachary Seguin Music',
+          name: 'Music',
           build: '0.1.0'
         },
         bitrate: window.MusicKit.PlaybackBitrate[this.$localStorage.get('bitrate')]
@@ -421,7 +421,7 @@ export default {
       let musicKit = window.MusicKit.getInstance();
 
       if (!musicKit.isAuthorized && this.$route.meta.isLibrary) {
-        this.$router.push({ path: '/', replace: true });
+        this.$router.push({ path: '/music', replace: true });
       }
 
       this.musicKit = musicKit;
