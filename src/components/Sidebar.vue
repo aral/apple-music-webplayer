@@ -77,7 +77,7 @@ export default {
       // If we're on a page that requires authentication,
       // then let's go back to /.
       if (this.$route.meta.isLibrary) {
-        this.$router.push('/');
+        this.$router.push('/music');
       }
     },
     fetch: function (offset) {
